@@ -12,7 +12,8 @@
 
 uint256 CBlockHeader::GetHash() const
 {
-    return HashX11(BEGIN(nVersion), END(nNonce));
+    // return HashX11(BEGIN(nVersion), END(nNonce));
+    return HashX13(BEGIN(nVersion), END(nNonce));
 }
 
 std::string CBlock::ToString() const

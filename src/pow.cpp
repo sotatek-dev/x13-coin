@@ -254,15 +254,22 @@ bool CheckProofOfWork(uint256 hash, unsigned int nBits, const Consensus::Params&
     bool fOverflow;
     arith_uint256 bnTarget;
 
+    // printf("POW:nBits = %x\n", nBits);
     bnTarget.SetCompact(nBits, &fNegative, &fOverflow);
 
     // Check range
-    if (fNegative || bnTarget == 0 || fOverflow || bnTarget > UintToArith256(params.powLimit))
+    if (fNegative || bnTarget == 0 || fOverflow || bnTarget > UintToArith256(params.powLimit)) {
+        // printf("POW: Check range fail\n");
+        // printf("POW: fNegative = %d, bnTarget = %s, fOverflow = %d, powLimit = %s\n", fNegative, bnTarget.ToString().c_str(), fOverflow,  UintToArith256(params.powLimit).ToString().c_str());
         return false;
+    }
 
     // Check proof of work matches claimed amount
-    if (UintToArith256(hash) > bnTarget)
+    if (UintToArith256(hash) > bnTarget) {
+        // printf("POW: Check proof of work matches claimed amount fail\n");
+        // printf("POW: UintToArith256(hash) = %s, bnTarget = %s\n", UintToArith256(hash).ToString().c_str(), bnTarget.ToString().c_str());
         return false;
+    }
 
     return true;
 }
